@@ -1,14 +1,18 @@
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 
+from config import Config
+from project.forms import SettingsForm
 
 app = Flask(__name__)
+app.config.from_object(Config)
 Bootstrap(app)
+
 
 
 @app.route("/")
 def index():
-    return render_template("index.html", title="Настройки")
+    return render_template("index.html", title="Настройки", form=SettingsForm())
 
 
 if __name__ == "__main__":
