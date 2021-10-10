@@ -1,0 +1,40 @@
+{% extends 'bootstrap/base.html' %}
+
+<!-- Название страницы -->
+{% block title %}
+    {% if title %}
+        Mini-Snake: {{ title }}
+    {% else %}
+        Mini-Snake
+    {% endif %}
+{% endblock %}
+{% block navbar %}
+<!-- Навигационная панель -->
+<nav class="navbar navbar-default">
+    <div class="col-md-1"></div>
+    <div class="navbar-brand">Mini-Snake</div>
+    <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li>
+                <a href="/">На главную</a>
+            </li>
+            <li>
+                <a href="/game/">Случайная игра</a>
+            </li>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+    <!-- Основное содержимое игры -->
+
+
+
+
+    <!-- Футер, подвал страницы -->
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="col-md-1"></div>
+        <div class="navbar-brand">&copy 2021 Skirdapa</div>
+    </nav>
+{% endblock %}
+
