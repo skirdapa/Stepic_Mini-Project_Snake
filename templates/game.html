@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{{super()}}
+<p>
+    {{ type_of_field }}
+</p>
+<p>{{name}}</p>
+<p>{{height}}</p>
+<p>{{width}}</p>
+{% endblock %}

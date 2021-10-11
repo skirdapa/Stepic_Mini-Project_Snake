@@ -5,33 +5,33 @@
     <div class="col-md-1"></div>
     <div class="col-md-4">
     <div class="panel panel-default">
-        <div class="panel-body">
-            <form action="" method="post" class = "">
+        <div class="panel-body setting-border">
+            <form action="/game/" method="post" class = "setting-form">
                 {{ form.csrf_token() }}
-                {% for field in form if field.name != "csrf_token" %}<p>
-
+                {% for field in form if field.name != "csrf_token" %}
+                    <p>
                     {% if field.name not in ("field_is_infinity", "submit") %}
                     <div class="input-group">
                         <span class="input-group-addon">{{ field.label }}</span>
-                        {{ field(class_="form-control", placeholder="text") }}
+                        {{ field(class_="form-control setting-input", placeholder="text") }}
                     </div>
                     {% elif field.name == "field_is_infinity" %}
                     <div class="input-group">
                         <span>
-                            {{ field }}
+                            {{ field(class_="setting-checkbox") }}
                         </span>
                         <span>{{ field.label }}</span>
                     </div>
                     {% else %}
                     <div class="input-group">
-                        {{ field(class_="btn btn-primary") }}
+                        {{ field(class_="btn btn-primary setting-submit") }}
                     </div>
                     {% endif%}
                     {% for error in field.errors %}
                         {{ error }}
                     {% endfor %}
-
-                </p>{% endfor %}
+                    </p>
+                {% endfor %}
             </form>
         </div>
     </div>
