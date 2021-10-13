@@ -1,15 +1,35 @@
-.setting-form{
-
+.field {
+    border: 1px solid black;
+    border-collapse: collapse;
 }
-.setting-input{
 
+td {
+    border: 1px solid black;
 }
-.setting-checkbox{
-
+.cell {
+    padding: 5px;
+    background: whitesmoke;
+    width: 30px;
+    height: 30px;
 }
-.setting-submit{
 
+.living-cell {
+    background: lightgreen;
 }
-.setting-border{
 
+.dead-cell {
+    background: darkred;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+a, table, .settings {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -45%);
 }
