@@ -1,42 +1,33 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, DecimalField, BooleanField
-from wtforms.fields.html5 import EmailField
-from wtforms.validators import DataRequired, Email, Length, InputRequired, NumberRange, ValidationError
-
-
-def validate_word_15(form, field):
-    excluded_number = '15'
-    print("начинаем проверку")
-    if excluded_number in field.data:
-        print("нашли ошибку")
-        raise ValidationError("Нельзя число 15 писать в этой форме!!!")
-    else:
-        print("всё норм")
+from wtforms import StringField, SubmitField, BooleanField, SelectField
+from wtforms.fields.html5 import EmailField, IntegerField
+from wtforms.validators import DataRequired, Email, Length, NumberRange
 
 
 class SettingsForm(FlaskForm):
     name = StringField("Ваше имя: ",
-                       validators=[validate_word_15, DataRequired(message="Введите своё имя"),
+                       validators=[DataRequired(message="Введите своё имя"),
                                    Length(min=2, message="Имя должно быть длиннее 2х символов")],
                        description="Имя игрока",
                        default="Безымянный герой")
-    height = DecimalField("Высота поля: ",
+    height = IntegerField("Высота поля: ",
                           validators=[NumberRange(min=5, max=30, message="Введите число от 5 до 30"),
-                                      DataRequired("Введите высоту поля")],
+                                      DataRequired("Введите высоту поля: число от 5 до 30")],
                           description="Размеры поля должны быть в пределах от 5 до 30 клеток",
-                          default=15,
-                          places=0)
-    width = DecimalField("Ширина поля: ",
+                          default=15)
+    width = IntegerField("Ширина поля: ",
                          validators=[NumberRange(min=5, max=30, message="Введите число от 5 до 30"),
-                                     DataRequired("Введите ширину поля")],
+                                     DataRequired("Введите ширину поля: число от 5 до 30")],
                          description="Размеры поля должны быть в пределах от 5 до 30 клеток",
-                         default=20,
-                         places=0)
+                         default=20)
     field_is_infinity = BooleanField("Поле бесконечно")
+    type_of_game = SelectField("Тип игры: ", choices=[
+        ("time", "В реальном времени"),
+        ("step", "В пошаговом режиме")])
     submit = SubmitField("Начать игру")
 
 
 class TestForm(FlaskForm):
-    word = StringField("Строка: ", [validate_word_15, Length(min=5)])
+    word = StringField("Строка: ", [Length(min=5)])
     email = EmailField("Почта: ", [Email()])
     submit = SubmitField("Submit")

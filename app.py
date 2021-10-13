@@ -12,39 +12,39 @@ app.config.from_object(Config)
 Bootstrap(app)
 
 
-@app.route("/")
+@app.route("/", methods=["post", "get"])
 def index():
     form = SettingsForm()
-    if form.validate_on_submit():
-        print("OK")
-    else:
-        print("не ок")
+    if request.method == "POST" and form.validate_on_submit():
+        type_of_field = 'infinity' if request.form.get("field_is_infinity") else 'ending'
+        name = request.form.get("name")
+        width = request.form.get("width")
+        height = request.form.get("height")
+        type_of_game = request.form.get("type_of_game")
+        url = f"/game/{type_of_field}/{type_of_game}/{name}/{height}/{width}"
+        return flask.redirect(url)
     return render_template("index.html", title="Настройки", form=form)
 
 
-@app.route("/game/", methods=["get", "post"])
+@app.route("/game/")
 def base_game():
     if request.method == "GET":
         type_of_field = random.choice(["infinity", "ending"])
         name = 'random_name'
         height = random.randint(10, 30)
         width = random.randint(10, 30)
-        url = f"/game/{type_of_field}/{name}/{height}/{width}"
-        return flask.redirect(url)
-    elif request.method == "POST":
-        type_of_field = 'infinity' if request.form.get("type_of_field") else 'ending'
-        name = request.form.get("name")
-        width = request.form.get("width")
-        height = request.form.get("height")
-        url = f"/game/{type_of_field}/{name}/{height}/{width}"
+        type_of_game = random.choice(["time", "step"])
+        url = f"/game/{type_of_field}/{type_of_game}/{name}/{height}/{width}"
         return flask.redirect(url)
     else:
         return flask.abort(404, 'Неверный метод запроса')
 
 
-@app.route("/game/<type_of_field>/<name>/<int:height>/<int:width>", methods=["get", "post"])
-def tuned_game(type_of_field, name, height, width):
-    return render_template("game.html", type_of_field=type_of_field, name=name, height=height, width=width)
+@app.route("/game/<type_of_field>/<type_of_game>/<name>/<int:height>/<int:width>", methods=["get", "post"])
+def tuned_game(type_of_field, type_of_game, name, height, width):
+    return render_template("game.html",
+                           type_of_field=type_of_field, type_of_game=type_of_game, name=name,
+                           height=height, width=width)
 
 
 @app.route("/test", methods=["get", "post"])
