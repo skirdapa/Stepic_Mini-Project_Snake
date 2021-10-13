@@ -5,7 +5,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask_bootstrap import Bootstrap
 
 from config import Config
-from project.forms import SettingsForm
+from project.forms import SettingsForm, TestForm
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -14,7 +14,12 @@ Bootstrap(app)
 
 @app.route("/")
 def index():
-    return render_template("index.html", title="Настройки", form=SettingsForm())
+    form = SettingsForm()
+    if form.validate_on_submit():
+        print("OK")
+    else:
+        print("не ок")
+    return render_template("index.html", title="Настройки", form=form)
 
 
 @app.route("/game/", methods=["get", "post"])
@@ -40,6 +45,15 @@ def base_game():
 @app.route("/game/<type_of_field>/<name>/<int:height>/<int:width>", methods=["get", "post"])
 def tuned_game(type_of_field, name, height, width):
     return render_template("game.html", type_of_field=type_of_field, name=name, height=height, width=width)
+
+
+@app.route("/test", methods=["get", "post"])
+def test_form():
+    form = TestForm()
+    setting_form = SettingsForm()
+    form.validate_on_submit()
+    setting_form.validate_on_submit()
+    return render_template("test.html", form=form, setting_form=setting_form)
 
 
 if __name__ == "__main__":
