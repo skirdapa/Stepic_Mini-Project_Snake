@@ -1,5 +1,6 @@
 {% extends 'bootstrap/base.html' %}
-<link rel="stylesheet" type="text/css" href="static/css/main.css">
+{% import "bootstrap/wtf.html" as wtf %}
+
 <!-- Название страницы -->
 {% block title %}
     {% if title %}
@@ -36,5 +37,9 @@
         <div class="col-md-1"></div>
         <div class="navbar-brand">&copy 2021 Skirdapa</div>
     </nav>
+{% endblock %}
+{% block scripts %}
+{{super()}}
+<link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet" type="text/css" />
 {% endblock %}
 

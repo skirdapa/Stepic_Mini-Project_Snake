@@ -13,12 +13,17 @@ td {
     height: 30px;
 }
 
-.living-cell {
+.head-cell {
+    background: lightgreen;
+    border-radius: 30px;
+}
+.body-cell{
     background: lightgreen;
 }
 
-.dead-cell {
+.meal-cell {
     background: darkred;
+    border-radius: 30px;
 }
 
 .content {
@@ -27,9 +32,9 @@ td {
     align-items: center;
 }
 
-a, table, .settings {
+table, .settings {
     position: absolute;
-    top: 50%;
+    top: 60%;
     left: 50%;
     transform: translate(-50%, -45%);
 }

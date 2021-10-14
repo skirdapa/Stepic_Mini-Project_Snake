@@ -1,12 +1,58 @@
 {% extends 'base.html' %}
 
+{% block navbar %}
+{{super()}}
+<p class="col-md-1">
+        <ul class="nav navbar-nav">
+            <li>
+                <label class="navbar-text">Тип поля: {{ type_of_field }}</label>
+            </li>
+            <li>
+                <label class="navbar-text">Имя игрока: {{ name }}</label>
+            </li>
+            <li>
+                <label class="navbar-text">Высота поля: {{ height }}</label>
+            </li>
+            <li>
+                <label class="navbar-text">Ширина поля: {{ width }}</label>
+            </li>
+            <li>
+                <label class="navbar-text">Тип игры: {{ type_of_game }}</label>
+            </li>
+        </ul>
+</p>
+<br>
+<br>
+{% endblock%}
+
 {% block content %}
 {{super()}}
-<p>
-    {{ type_of_field }}
-</p>
-<p>{{name}}</p>
-<p>{{height}}</p>
-<p>{{width}}</p>
-<p>{{type_of_game}}</p>
+<hr>
+<div class="col-md-4"></div>
+<div class="col-md-4">
+<div class="panel panel-default">
+    <div class="panel-body setting-border">
+        {{ wtf.quick_form(form, form_type="horizontal", horizontal_columns=("lg", 3, 9)) }}
+    </div>
+</div>
+</div>
+
+    <!--Пробуем нарисовать поле еду и змейку -->
+    <table class="field">
+        {% for y in range(snake_the_game.height) %}
+            <tr>
+                {% for x in range(snake_the_game.width) %}
+                    {% if [x, y] in snake.body_position %}
+                        <td class="body-cell"></td>
+                    {% elif [x, y] == snake.head_position %}
+                        <td class="head-cell"></td>
+                    {% elif [x, y] == snake_the_game.meal_position %}
+                        <td class="meal-cell"></td>
+                    {% else %}
+                        <td class="cell"></td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}

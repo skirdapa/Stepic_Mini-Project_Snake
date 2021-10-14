@@ -20,10 +20,11 @@ class SettingsForm(FlaskForm):
                                      DataRequired("Введите ширину поля: число от 5 до 30")],
                          description="Размеры поля должны быть в пределах от 5 до 30 клеток",
                          default=20)
-    field_is_infinity = BooleanField("Поле бесконечно")
-    type_of_game = SelectField("Тип игры: ", choices=[
-        ("time", "В реальном времени"),
-        ("step", "В пошаговом режиме")])
+    # TODO: Доделать режим реального времени и выбор типа поля
+    # field_is_infinity = BooleanField("Поле бесконечно")
+    # type_of_game = SelectField("Тип игры: ", choices=[
+    #     ("time", "В реальном времени"),
+    #     ("step", "В пошаговом режиме")])
     submit = SubmitField("Начать игру")
 
 
@@ -31,3 +32,12 @@ class TestForm(FlaskForm):
     word = StringField("Строка: ", [Length(min=5)])
     email = EmailField("Почта: ", [Email()])
     submit = SubmitField("Submit")
+
+
+class DirectionForm(FlaskForm):
+    direction = SelectField("Направление движения: ", choices=[
+        ("up", "Вверх"),
+        ("down", "Вниз"),
+        ("left", "Влево"),
+        ("right", "Вправо")])
+    submit = SubmitField("Двинуться")
