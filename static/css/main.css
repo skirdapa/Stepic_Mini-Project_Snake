@@ -2,6 +2,9 @@
     border: 1px solid black;
     border-collapse: collapse;
 }
+.field-hard{
+    border: 3px solid black;
+}
 
 td {
     border: 1px solid black;
@@ -37,4 +40,10 @@ table, .settings {
     top: 60%;
     left: 50%;
     transform: translate(-50%, -45%);
+}
+.end-game{
+
+}
+h1.end-game{
+    color: red;
 }

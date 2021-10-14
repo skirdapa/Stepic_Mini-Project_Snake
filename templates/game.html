@@ -2,10 +2,16 @@
 
 {% block navbar %}
 {{super()}}
-<p class="col-md-1">
+<p class="col-md-3">
         <ul class="nav navbar-nav">
             <li>
-                <label class="navbar-text">Тип поля: {{ type_of_field }}</label>
+                <label class="navbar-text">Тип поля:
+                    {% if snake_the_game.field_is_infinity %}
+                        Бесконечное
+                    {%else%}
+                        Замкнутое
+                    {%endif%}
+                </label>
             </li>
             <li>
                 <label class="navbar-text">Имя игрока: {{ name }}</label>
@@ -16,9 +22,11 @@
             <li>
                 <label class="navbar-text">Ширина поля: {{ width }}</label>
             </li>
+            <!--
             <li>
                 <label class="navbar-text">Тип игры: {{ type_of_game }}</label>
             </li>
+            -->
         </ul>
 </p>
 <br>
@@ -28,6 +36,13 @@
 {% block content %}
 {{super()}}
 <hr>
+{% if snake_the_game.is_end %}
+    <div class="col-md-5"></div>
+    <div class="col-md-3">
+        <h1 class="end-game">Игра окончена</h1>
+        <p class="end-game">Итоговая длина вашей змейки: {{ snake.length }}</p>
+    </div>
+{% else %}
 <div class="col-md-4"></div>
 <div class="col-md-4">
 <div class="panel panel-default">
@@ -36,9 +51,14 @@
     </div>
 </div>
 </div>
-
     <!--Пробуем нарисовать поле еду и змейку -->
-    <table class="field">
+    <table class=
+            {% if snake_the_game.field_is_infinity %}
+                "field"
+            {% else %}
+                "field-hard"
+            {%endif%}
+    >
         {% for y in range(snake_the_game.height) %}
             <tr>
                 {% for x in range(snake_the_game.width) %}
@@ -55,4 +75,5 @@
             </tr>
         {% endfor %}
     </table>
+{% endif %}
 {% endblock %}

@@ -18,12 +18,13 @@ def index():
     form = SettingsForm()
     if request.method == "POST" and form.validate_on_submit():
         type_of_field = 'infinity' if request.form.get("field_is_infinity") else 'ending'
+        field_is_infinity = request.form.get("field_is_infinity")
         name = request.form.get("name")
         width = int(request.form.get("width"))
         height = int(request.form.get("height"))
         type_of_game = request.form.get("type_of_game")
         url = f"/game/{type_of_field}/{type_of_game}/{name}/{height}/{width}"
-        SnakeTheGame(width=width, height=height)
+        SnakeTheGame(width=width, height=height, field_is_infinity=field_is_infinity)
         return flask.redirect(url)
     return render_template("index.html", title="Настройки", form=form)
 
@@ -36,7 +37,8 @@ def base_game():
         height = random.randint(5, 20)
         width = random.randint(5, 20)
         type_of_game = random.choice(["time", "step"])
-        SnakeTheGame(width=width, height=height)
+        field_is_infinity = random.choice([True, False])
+        SnakeTheGame(width=width, height=height, field_is_infinity=field_is_infinity)
         url = f"/game/{type_of_field}/{type_of_game}/{name}/{height}/{width}/"
         return flask.redirect(url)
     else:
@@ -49,7 +51,6 @@ def tuned_game(type_of_field, type_of_game, name, height, width):
     snake_the_game = SnakeTheGame()
     if request.method == "POST":
         direction = request.form.get("direction")
-        # print("я пост", direction)
         snake_the_game.snake_move(direction)
     return render_template("game.html",
                            type_of_field=type_of_field, type_of_game=type_of_game, name=name,
@@ -57,13 +58,9 @@ def tuned_game(type_of_field, type_of_game, name, height, width):
                            form=form)
 
 
-@app.route("/test", methods=["get", "post"])
-def test_form():
-    form = TestForm()
-    setting_form = SettingsForm()
-    form.validate_on_submit()
-    setting_form.validate_on_submit()
-    return render_template("test.html", form=form, setting_form=setting_form)
+@app.route("/about/")
+def about():
+    return render_template("about.html")
 
 
 if __name__ == "__main__":

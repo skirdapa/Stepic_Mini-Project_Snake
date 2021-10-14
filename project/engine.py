@@ -48,19 +48,17 @@ class SnakeTheGame(metaclass=SingletonMeta):
         self.field_is_infinity = field_is_infinity
         self.snake = self.Snake()
         self.meal_position = self.get_meal_position()
+        self.is_end = False
 
     def get_meal_position(self):
         pos = [random.randint(0, self.width-1), random.randint(0, self.height-1)]
-        print("я гетмил позишн", pos)
         if pos in self.snake.body_position or pos == self.snake.head_position:
-            print("Гетмил: Позиция еды совпала с позицией змейки")
             return self.change_meal_position()
         return pos
 
     def change_meal_position(self):
         self.meal_position = self.get_meal_position()
         if self.meal_position in self.snake.body_position or self.meal_position == self.snake.head_position:
-            print("Ченджмил: Позиция еды совпала с позицией змейки", self.meal_position)
             return self.change_meal_position()
 
     def snake_move(self, direction):
@@ -73,9 +71,16 @@ class SnakeTheGame(metaclass=SingletonMeta):
         self.snake.move_body(self.meal_position)
         if self.snake.head_position == self.meal_position:
             self.change_meal_position()
+            self.snake.length += 1
         direction_dict[direction]()
-        print("Змейка движется", direction)
-        # Следующие две строки должны научить змейку ходить сквозь стены
-        self.snake.head_position[0] = self.snake.head_position[0] % self.width
-        self.snake.head_position[1] = self.snake.head_position[1] % self.height
-
+        # Условие поражения при наступлении на себя
+        if self.snake.head_position in self.snake.body_position:
+            self.is_end = True
+        # Если поле бесконечно, то змейка ходит сквозь стены, если нет, то умирает
+        if self.snake.head_position[0] >= self.width or self.snake.head_position[1] >= self.height\
+                or self.snake.head_position[0] < 0 or self.snake.head_position[1] < 0:
+            if self.field_is_infinity:
+                self.snake.head_position[0] = self.snake.head_position[0] % self.width
+                self.snake.head_position[1] = self.snake.head_position[1] % self.height
+            else:
+                self.is_end = True

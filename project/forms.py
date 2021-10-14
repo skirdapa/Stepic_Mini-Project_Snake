@@ -20,8 +20,8 @@ class SettingsForm(FlaskForm):
                                      DataRequired("Введите ширину поля: число от 5 до 30")],
                          description="Размеры поля должны быть в пределах от 5 до 30 клеток",
                          default=20)
-    # TODO: Доделать режим реального времени и выбор типа поля
-    # field_is_infinity = BooleanField("Поле бесконечно")
+    field_is_infinity = BooleanField("Поле бесконечно")
+    # TODO: Доделать режим реального времени
     # type_of_game = SelectField("Тип игры: ", choices=[
     #     ("time", "В реальном времени"),
     #     ("step", "В пошаговом режиме")])
